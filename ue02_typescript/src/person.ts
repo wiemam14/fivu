@@ -1,6 +1,5 @@
 
-export class Person
-{
+export class Person {
 
     private _vorname: string;
     private _nachname: string;
@@ -27,6 +26,4 @@ export class Person
      public get birthYear (): number {
          return this.birthYear;
      }
-
-
 }
