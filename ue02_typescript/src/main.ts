@@ -1,5 +1,13 @@
+import { Server } from './server';
 
-import { Person } from './person';
 
-let p = new Person ('Lorenz', 'Muri', 2000);
-console.log(p.vorname, p.nachname, p.birthYear);
+
+class Main {
+
+    public static main () { // Java führt dies von selber aufgrund der Manifest-Datei aus
+        const server = new Server(4711);
+        server.start();
+    }
+}
+
+Main.main();

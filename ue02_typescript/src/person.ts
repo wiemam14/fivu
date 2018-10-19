@@ -15,7 +15,7 @@ export class Person {
 
      // tslint:disable:one-line
 
-     public get vorname   (): string {
+     public get vorname   (): string {  //  erscheint nicht als Methode sondern als Attribut
          return this.vorname ;
      }
 
@@ -26,4 +26,15 @@ export class Person {
      public get birthYear (): number {
          return this.birthYear;
      }
+
+     public set vorname (v: string) {
+         if(v === undefined || v === null || v === '') {
+            throw Error('invalid value');
+        }
+        this._vorname = v;
+    }
+
+    public toString (): string {
+        return this._nachname + ' ' +this._vorname;
+    }
 }
