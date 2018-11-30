@@ -1,6 +1,6 @@
 
 // Node.js Modul
-import * as http from 'http';
+// import * as http from 'http';
 import * as path from 'path';
 import * as bodyParser from 'body-parser';
 
@@ -16,11 +16,17 @@ export class Server {
         const assetsPath = path.join(__dirname, '..', 'assets');
         this._port = port;
         this._server = express();
+
+        this._server.set('views', path.join(__dirname, 'views')); // Finden der Templates
+        const engine = this._server.set('view engine', 'pug'); // merken sie uns in einer Variable
+        engine.locals.pretty = true;    // es soll schön produziert werden
+
         this._server.use('/', express.static(assetsPath));  // Damit alle Dateien in den Assets Ordner kommen
-        this._server.use(bodyParser.urlencoded);
-        this._server.post('login.html',
-            (req,res,next) => this.handlePostLogin(req,res,next));
-        this._server.get('/liste',
+        this._server.use(bodyParser.json()); // BodyParser erkennt dies
+        this._server.use(bodyParser.urlencoded());
+        this._server.post('/login.html',
+            (req, res, next) => this.handlePostLogin(req, res, next));  // POST
+        this._server.get('/list',
             (req, res, next) => this.handleGetListe(req, res, next));
     }
 
@@ -37,8 +43,11 @@ export class Server {
 
     private handlePostLogin(req: express.Request, res: express.Response, next: express.NextFunction) {
 
-        debugger;
-        next();
+        if (req.body.email === 'test@test.at' && req.body.password === 'geheim') {
+            res.render('welcome.pug', { anrede: 'Herr', name: 'Rossi'});  // Greift auf pug über render zu
+        } else {
+            res.status(404).send('404 NOT AUTHORIZED');
+        }
     }
 
     private handleGetListe(req: express.Request, res: express.Response, next: express.NextFunction) {
@@ -48,9 +57,7 @@ export class Server {
         res.sendFile(filePath);
     }
 
-    private sendImage (res: express.Response) {
-        const filePath = path.join(__dirname, '..', 'assets', 'image.png');
-        res.sendFile(filePath);
-    }
+
+
 
 }
