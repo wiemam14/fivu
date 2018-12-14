@@ -28,6 +28,8 @@ export class Server {
             (req, res, next) => this.handlePostLogin(req, res, next));  // POST
         this._server.get('/list',
             (req, res, next) => this.handleGetListe(req, res, next));
+        this._server.get('/welcome',
+            (req, res, next) => this.handleGetWelcome(req, res, next));
     }
 
     public start () {
@@ -41,10 +43,13 @@ export class Server {
 
 
 
+
+
     private handlePostLogin(req: express.Request, res: express.Response, next: express.NextFunction) {
 
         if (req.body.email === 'test@test.at' && req.body.password === 'geheim') {
-            res.render('welcome.pug', { anrede: 'Herr', name: 'Rossi'});  // Greift auf pug über render zu
+            // res.render('welcome.pug', { anrede: 'Herr', name: 'Rossi'});  // Greift auf pug über render zu
+            res.redirect('/welcome');
         } else {
             res.status(404).send('404 NOT AUTHORIZED');
         }
@@ -57,6 +62,10 @@ export class Server {
         res.sendFile(filePath);
     }
 
+    private handleGetWelcome(req: express.Request, res: express.Response, next: express.NextFunction) {
+
+        res.render('welcome.pug', { anrede: 'Herr', name: 'Rossi'});
+    }
 
 
 
