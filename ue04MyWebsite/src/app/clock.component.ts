@@ -17,9 +17,10 @@ export class ClockComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy () {
-        if(this.timer) {
+        if (this.timer) {
             clearInterval(this.timer);
             this.timer = null;
     }
 }
 }
+
